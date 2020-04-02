@@ -2,34 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 
 //This is the Higher Order Component
-//(tasks:state.tasks)(
+//
 
 function myConnect(mapStateToPropsFunc) {
-  // tasks: state.tasks
-  // mapStateToPropsFunc = function mapStateToProps(state){
-  //   return state.name
-  // }
+  // mapStateToPropsFunc = (state)=>{tasks:state:tasks})
+
   return function(WrappedComp) {
-    //  <ul>
-    //   {tasks.map(task => {
-    //     return <li>{task.title}</li>;
-    //   })}
-    // </ul>)
-    // WrappedComp = <TestComp />
+    // <ul>
+    // </ul>
     var myHOC = class HOC extends React.Component {
       render() {
         //Now we access redux store using react context api as it will be passed by myProvider automatically to all child components
         var myStore = this.context.store.getState();
-        // myStore = {tasks:[{id:0, title:"learn html"}]}
-
+        // myStore = {tasks:[{id:0, title:"learn HTML"}]}
         //mapStateToPropsFunc is just used to structure the props required by the component so we pass it the whole store and then it returns an mapped object with required props
 
         var storeToBePassed = mapStateToPropsFunc(myStore);
-        // storeToBePassed = return tasks:[{id:0, title:"learn html"}
+        // (state)=>{tasks:state:tasks})
+        // storeToBePassed = tasks:[{id:0, title:"learn HTML"}]
         return (
           //We pass the result from executing mapStateToPropsFunc to the wrapped component and this is how the components get passed props from redux store
-          // <TestComp name={Amr} />
-          // <ConnectedList tasks={tasks:[{id:0, title:"learn html"}]}
+          // <NewComp tasks={[{id:0, title:"learn HTML"}]}}> </NewComp>
           <WrappedComp {...storeToBePassed} />
         );
       }

@@ -1,28 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
+import { toggleDone } from "../actions/index";
 
 const mapStateToProps = state => {
   return { tasks: state.tasks };
 };
-const mapDispatchToProps = state => {
-  //   return Something;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleDone: todo => dispatch(toggleDone(todo))
+  };
 };
 
-const ConnectedList = ({ tasks }) => {
+const ConnectedList = ({ tasks, toggleDone }) => {
+  // tasks={[{id:0, title:"learn HTML"}]}}
   return (
     <ul>
       {tasks.map(task => {
-        return <li>{task.title}</li>;
+        const style = task.done ? { textDecoration: "line-through" } : null;
+        return (
+          <li style={style} key={task.id} onClick={() => toggleDone(task.id)}>
+            {task.title}
+          </li>
+        );
       })}
     </ul>
   );
 };
 
 const List = connect(mapStateToProps, mapDispatchToProps)(ConnectedList);
-// connect(tasks:state.tasks)(
+// const List = connect((state)=>{tasks:state:tasks})
 // <ul>
-//   {tasks.map(task => {
-//     return <li>{task.title}</li>;
-//   })}
-// </ul>)
+// </ul>
+//<List tasks={[{id:0, title:"learn HTML"}]}}>
 export default List;
